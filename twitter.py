@@ -43,17 +43,18 @@ class Twitter:
 
     # Tweet out the apod details on Twitter
     def tweet(self, api, date, title, read, image_url):
-        file = 'temp.jpg'
-        request = requests.get(image_url)
-        if request.status_code == 200:
-            with open(file, 'wb') as image:
-                for chunk in request:
-                    image.write(chunk)
+        try:
+            file = 'temp.jpg'
+            request = requests.get(image_url)
+            if request.status_code == 200:
+                with open(file, 'wb') as image:
+                    for chunk in request:
+                        image.write(chunk)
 
-            api.update_with_media(file, status=(date + "\n" + title + "\n" + read +
-                                                "\n#apod #astronomy #space #nasa \n"))
-            os.remove(file)
-        else:
+                api.update_with_media(file, status=(date + "\n" + title + "\n" + read +
+                                                    "\n#apod #astronomy #space #nasa \n"))
+                os.remove(file)
+        except:
             print("Unable to post image")
 
 
